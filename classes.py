@@ -56,6 +56,9 @@ class T1:
                 self.winner = self.check_for_winner()
         return self.winner
 
+    def set_winner(self, winner):
+        self.winner = winner
+
     def get_pos(self):
         return self.x, self.y
 
@@ -78,8 +81,32 @@ class T2:
     def get_t1_at(self, x, y):
         return self.t1s[x][y]
 
+    def check_for_winner(self):
+        for i in range(3):
+            if self.t1s[i][0].get_winner() == self.t1s[i][1].get_winner() == self.t1s[i][2].get_winner():
+                if self.t1s[i][0].get_winner():
+                    return self.t1s[i][0].get_winner()
+        for i in range(3):
+            if self.t1s[0][i].get_winner() == self.t1s[1][i].get_winner() == self.t1s[2][i].get_winner():
+                if self.t1s[0][i].get_winner():
+                    return self.t1s[0][i].get_winner()
+
+        if self.t1s[0][0].get_winner() == self.t1s[1][1].get_winner() == self.t1s[2][2].get_winner():
+            if self.t1s[0][0].get_winner():
+                return self.t1s[0][0].get_winner()
+
+        if self.t1s[0][2].get_winner() == self.t1s[1][1].get_winner() == self.t1s[2][0].get_winner():
+            if self.t1s[0][2].get_winner():
+                return self.t1s[0][2].get_winner()
+
     def get_winner(self):
+        if not self.winner:
+            if self.check_for_winner():
+                self.winner = self.check_for_winner()
         return self.winner
+
+    def set_winner(self, winner):
+        self.winner = winner
 
     def get_pos(self):
         return self.x, self.y
@@ -101,5 +128,26 @@ class T3:
     def get_t2_at(self, x, y):
         return self.t2s[x][y]
 
+    def check_for_winner(self):
+        for i in range(3):
+            if self.t2s[i][0].get_winner() == self.t2s[i][1].get_winner() == self.t2s[i][2].get_winner():
+                if self.t2s[i][0].get_winner():
+                    return self.t2s[i][0].get_winner()
+        for i in range(3):
+            if self.t2s[0][i].get_winner() == self.t2s[1][i].get_winner() == self.t2s[2][i].get_winner():
+                if self.t2s[0][i].get_winner():
+                    return self.t2s[0][i].get_winner()
+
+        if self.t2s[0][0].get_winner() == self.t2s[1][1].get_winner() == self.t2s[2][2].get_winner():
+            if self.t2s[0][0].get_winner():
+                return self.t2s[0][0].get_winner()
+
+        if self.t2s[0][2].get_winner() == self.t2s[1][1].get_winner() == self.t2s[2][0].get_winner():
+            if self.t2s[0][2].get_winner():
+                return self.t2s[0][2].get_winner()
+
     def get_winner(self):
+        if not self.winner:
+            if self.check_for_winner():
+                self.winner = self.check_for_winner()
         return self.winner
