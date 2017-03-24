@@ -135,6 +135,10 @@ def get_input_at_click(rects, pos):
     return None
 
 
+def check_t1(board, t2x, t2y, t1x, t1y):
+    return not bool(board.get_t2_at(t2x, t2y).get_t1_at(t1x, t1y).get_winner())
+
+
 def get_new_t1(board):
     while True:
         x = randint(0, 26)
@@ -143,9 +147,19 @@ def get_new_t1(board):
         t1y = y // 3 % 3
         t2x = x // 9
         t2y = y // 9
-        if board.get_t2_at(t2x, t2y).get_t1_at(t1x, t1y).get_winner():
+        if check_t1(board, t2x, t2y, t1x, t1y):
             break
-        return t2x, t2y, t1x, t1y
+    return t2x, t2y, t1x, t1y
+
+
+def get_next_t1(board, t2x, t2y, t1x, t1y, t0x, t0y):
+    if check_t1(board, t0x, t0y, t0x, t0y):
+        return t0x, t0x, t0x, t0y
+    elif check_t1(board, t2x, t2y, t0x, t0y):
+        return t2x, t2x, t0x, t0y
+    else:
+        return get_new_t1(board)
+
 
 
 def main():
@@ -170,8 +184,8 @@ def main():
         t0x, t0y = get_input_at_click(rects, wait_for_click())
         t0 = board.get_t2_at(t2x, t2y).get_t1_at(t1x, t1y).get_t0_at(t0x, t0y)
         if not t0.get_status():
-            t2x, t2y, t1x, t1y = get_new_t1(board)
             t0.set_status(turn)
+            t2x, t2y, t1x, t1y = get_next_t1(board, t2x, t2y, t1x, t1y, t0x, t0y)
             turn = -1 if turn == 1 else 1
 
 
